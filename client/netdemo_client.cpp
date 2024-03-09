@@ -141,9 +141,15 @@ void NDClient::RequestWords (int num)
 	}
 }
 
-
 void main (int argc, char* argv[])
 {
+	//-- network performance profiling	
+	// libmin must be built with PROFILE_NET and USE_NVTX
+	// for CPU netRecv will show >1/ms due to perf printfs (see nvtx markers for better analysis)
+	// for NVTX the nvToolsExt64_1.dll must be present
+	// enable this line to see profiling:
+	// PERF_INIT ( 64, true, true, true, 0, "" );	
+
 	NDClient cli;
 
 	cli.Start ();
