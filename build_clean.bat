@@ -1,8 +1,12 @@
 
 
-REM ################### Cleaning flock2
+REM ################### Cleaning libmin
 
 rmdir ..\build\libmin /s /q
-rmdir ..\build\flock2 /s /q
+
+REM ################### Cleaning netdemo
+
+rmdir ..\build\ndclient /s /q
+rmdir ..\build\ndserver /s /q
 
 
