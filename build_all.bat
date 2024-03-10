@@ -15,7 +15,7 @@ git pull
 REM ################################### Building Libmin
 
 cd ..
-cmake -S libmin -B build\libmin -DBUILD_CUDA=OFF -DBUILD_GLEW=OFF -DBUILD_OPENGL=OFF -DBUILD_SHARED_LIBS=ON
+cmake -S libmin -B build\libmin -DBUILD_SSL=ON -DBUILD_CUDA=OFF -DBUILD_GLEW=OFF -DBUILD_OPENGL=OFF -DBUILD_SHARED_LIBS=ON
 
 cd build\libmin
 msbuild libmin.sln /p:Configuration=Debug
@@ -28,14 +28,14 @@ git pull
 
 REM ################################### Building Netdemo Client
 
-cmake -S client -B ../build/ndclient -DLIBMIN_ROOT=../../libmin
+cmake -S ndclient -B ../build/ndclient -DLIBMIN_ROOT=../../libmin
 
 msbuild ..\build\ndclient\nd_client.sln /p:Configuration=Debug
 msbuild ..\build\ndclient\nd_client.sln /p:Configuration=Release
 
 REM ################################### Building Netdemo Server
 
-cmake -S server -B ../build/ndserver -DLIBMIN_ROOT=../../libmin
+cmake -S ndserver -B ../build/ndserver -DLIBMIN_ROOT=../../libmin
 
 msbuild ..\build\ndserver\nd_server.sln /p:Configuration=Debug
 msbuild ..\build\ndserver\nd_server.sln /p:Configuration=Release
