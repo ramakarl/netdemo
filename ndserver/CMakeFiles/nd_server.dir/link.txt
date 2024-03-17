@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/nd_server.dir/netdemo_server.cpp.o -o nd_server  /data/Codes/build/libmin/bin/ 

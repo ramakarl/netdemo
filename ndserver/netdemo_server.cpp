@@ -1,5 +1,29 @@
 
-#include <conio.h>
+#ifdef _WIN32
+  #include <conio.h>
+#endif
+
+#ifdef __linux__
+  #include <stdio.h>
+  #include <sys/ioctl.h>
+  #include <termios.h>
+
+  int _kbhit() {
+    static const int STDIN = 0;
+    static bool kbinit = false;
+    if (!kbinit) {
+      termios term;
+      tcgetattr(STDIN, &term);
+      term.c_lflag &= ~ICANON;
+      tcsetattr(STDIN, TCSANOW, &term);
+      setbuf(stdin, NULL);
+      kbinit=true;
+    }
+    int bytes;
+    ioctl(STDIN, FIONREAD, &bytes);
+    return bytes;
+  }
+#endif   
 
 #include "netdemo_server.h"
 
@@ -10,7 +34,7 @@ int NDServer::NetEventCallback (Event& e, void* this_pointer) {
 
 void NDServer::Start ()
 {
-	bool bDebug = false;
+	bool bDebug = true;
 	bool bVerbose = true;
 
 	// start networking
@@ -19,7 +43,7 @@ void NDServer::Start ()
 	netDebug( bDebug );
 	
 	// start server listening
-	int srv_port = 1010;
+	int srv_port = 16101;
 	netStartServer ( srv_port );
 	netSetUserCallback ( &NetEventCallback );
 
@@ -146,7 +170,9 @@ int NDServer::Process ( Event& e )
 	return 0;
 }
 
-void main (int argc, char* argv[])
+
+
+int main (int argc, char* argv[])
 {
 	NDServer srv;
 
@@ -159,4 +185,6 @@ void main (int argc, char* argv[])
 	}
 
 	srv.Close ();  
+	
+	return 1;
 }

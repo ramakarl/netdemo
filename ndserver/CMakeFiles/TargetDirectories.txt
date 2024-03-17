@@ -1,0 +1,7 @@
+/data/Codes/netdemo/ndserver/CMakeFiles/nd_server.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/edit_cache.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/rebuild_cache.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/list_install_components.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/install.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/install/local.dir
+/data/Codes/netdemo/ndserver/CMakeFiles/install/strip.dir
