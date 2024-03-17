@@ -46,8 +46,8 @@ void NDClient::Start ()
 void NDClient::Reconnect ()
 {
 	// reconnect to server
-	std::string serverName = "localhost";
-	int serverPort = 1010;
+	std::string serverName = "192.168.1.78";  //"localhost";
+	int serverPort = 16101;
 
 	dbgprintf ( "Connecting..\n" );	
 	mSock = netClientConnectToServer ( serverName, serverPort, false );	
