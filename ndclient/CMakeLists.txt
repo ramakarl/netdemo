@@ -50,47 +50,13 @@ endif()
 
 _REQUIRE_LIBEXT()
 
+_REQUIRE_OPENSSL (true)
+
+_REQUIRE_BCRYPT (true)
+
 #--- symbols in release mode
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" CACHE STRING "" FORCE)
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /DEBUG /OPT:REF /OPT:ICF" CACHE STRING "" FORCE)
-
-####################################################################################
-# Find OpenSSL
-#
-find_package(OpenSSL)
-
-if ( OPENSSL_FOUND )	
-	add_definitions(-DUSE_OPENSSL)
-	
-    include_directories ( ${OPENSSL_INCLUDE_DIR} )
-    link_directories ( ${OPENSSL_LIB_DIR} )
-	LIST( APPEND LIBRARIES_OPTIMIZED "${OPENSSL_LIB}")
-    LIST( APPEND LIBRARIES_DEBUG "${OPENSSL_LIB}")	
-    _EXPANDLIST( OUTPUT PACKAGE_DLLS SOURCE ${OPENSSL_LIB_DIR} FILES ${OPENSSL_DLL} )
-    message ( STATUS "--> Using OpenSSL, ${OPENSSL_LIB_DIR}/${OPENSSL_DLL} ")
-else()
-    message ( FATAL_ERROR "\n  Could not find OpenSLL library. Link with a different /libext for third-party libs that include OpenSSL.\n")
-endif()
-
-#####################################################################################
-# Find Bcrypt
-#
-find_package(Bcrypt)
-
-if ( BCRYPT_FOUND )	
-	if ( NOT DEFINED USE_BCRYPT )	       
-		SET(USE_BCRYPT ON CACHE BOOL "Use Bcrypt")
-	endif()
-	if ( USE_BCRYPT )
-		add_definitions(-DUSE_BCRYPT)		
-		message ( STATUS " Using Bcrypt")
-		include_directories ( ${BCRYPT_INCLUDE_DIR} )
-		link_directories ( ${BCRYPT_LIB_DIR} )
-		LIST( APPEND LIBRARIES_DEBUG "${BCRYPT_DEBUG_LIB}")	
-		LIST( APPEND LIBRARIES_OPTIMIZED "${BCRYPT_RELEASE_LIB}")    
-		_EXPANDLIST( OUTPUT PACKAGE_DLLS SOURCE ${BCRYPT_LIB_DIR} FILES ${BCRYPT_DLL})
-	endif()
-endif()
 
 #####################################################################################
 # Executable
