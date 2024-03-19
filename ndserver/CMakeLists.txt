@@ -66,7 +66,7 @@ list( APPEND ALL_SOURCE_FILES ${PACKAGE_SOURCE_FILES} )
 list( APPEND ALL_SOURCE_FILES ${UTIL_SOURCE_FILES} )
 
 if ( NOT DEFINED WIN32 )
-  set( libdeps ncurses )
+  set( libdeps )
   LIST(APPEND LIBRARIES_OPTIMIZED ${libdeps})
   LIST(APPEND LIBRARIES_DEBUG ${libdeps})
 ENDIF()
@@ -108,7 +108,7 @@ if (WIN32)
   install ( FILES $<TARGET_PDB_FILE:${PROJNAME}> DESTINATION ${CMAKE_INSTALL_PREFIX} OPTIONAL )   # PDB
 endif()
 
-install ( FILES ${INSTALL_LIST} DESTINATION ${CMAKE_INSTALL_PREFIX} )		# exe, pdb
+install ( FILES ${INSTALL_LIST} DESTINATION ${CMAKE_INSTALL_PREFIX} )		# exe
 
 ###########################
 # Done

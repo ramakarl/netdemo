@@ -121,7 +121,7 @@ int NDClient::Run ()
 	// demo app - request the words for a random number every 2 secs
 	//
 	float elapsed_sec = m_currtime.GetElapsedSec ( m_lasttime );
-	if ( elapsed_sec >= 0.5 ) {
+	if ( elapsed_sec >= 0.01 ) {
 		m_lasttime = m_currtime;
 
 		if ( netIsConnected( mSock) ) {			
