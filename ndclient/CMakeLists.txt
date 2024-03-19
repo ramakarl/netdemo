@@ -71,13 +71,13 @@ list( APPEND ALL_SOURCE_FILES ${PACKAGE_SOURCE_FILES} )
 list( APPEND ALL_SOURCE_FILES ${UTIL_SOURCE_FILES} )
 
 if ( NOT DEFINED WIN32 )
-    set(libdeps GL GLEW X11)
+  set( libdeps )
   LIST(APPEND LIBRARIES_OPTIMIZED ${libdeps})
   LIST(APPEND LIBRARIES_DEBUG ${libdeps})
 ENDIF()
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}")    
 
-add_executable (${PROJNAME} ${ALL_SOURCE_FILES} ${CUDA_FILES} ${GLSL_FILES} )
+add_executable (${PROJNAME} ${ALL_SOURCE_FILES} )
 
 set_property ( TARGET ${PROJNAME} APPEND PROPERTY DEPENDS )
 
@@ -90,12 +90,11 @@ set_target_properties( ${PROJNAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFI
 #
 _LINK ( PROJECT ${PROJNAME} OPT ${LIBRARIES_OPTIMIZED} DEBUG ${LIBRARIES_DEBUG} PLATFORM ${PLATFORM_LIBRARIES} )
 
-#####################################################################################
+##################################################################################
 # Windows specific
 #
 _MSVC_PROPERTIES()
 source_group("Source Files" FILES ${MAIN_FILES} ${COMMON_SOURCE_FILES} ${PACKAGE_SOURCE_FILES})
-source_group( CUDA FILES ${CUDA_FILES})
 
 #####################################################################################
 # Install Binaries

@@ -1,5 +1,29 @@
 
-#include <conio.h>
+#ifdef _WIN32
+  #include <conio.h>
+#endif
+
+#ifdef __linux__
+  #include <stdio.h>
+  #include <sys/ioctl.h>
+  #include <termios.h>
+  
+  int _kbhit () {
+    static const int STDIN = 0;
+    static bool kbinit = false;
+    if ( !kbinit) {
+      termios term;
+      tcgetattr(STDIN, &term);
+      term.c_lflag &= ~ICANON;
+      tcsetattr(STDIN, TCSANOW, &term);
+      setbuf(stdin, NULL);
+      kbinit=true;
+    }
+    int bytes;
+    ioctl(STDIN, FIONREAD, &bytes);
+    return bytes;
+  }
+#endif
 
 #include <openssl/err.h>
 #include <openssl/md5.h>
@@ -9,7 +33,7 @@
 
 #include "netdemo_client.h"
 
-// #define ENABLE_SSL
+ #define ENABLE_SSL
 
 
 int NDClient::NetEventCallback (Event& e, void* this_pointer) {
@@ -33,7 +57,7 @@ void NDClient::Start ()
 	netDebug( bDebug );	
 
 	// start client on random port
-	int cli_port = rand()*1000 / RAND_MAX;
+	int cli_port = 10000 + rand() % 9000;
 	netStartClient ( cli_port );
 	netSetUserCallback ( &NetEventCallback );
 	
@@ -46,7 +70,7 @@ void NDClient::Start ()
 void NDClient::Reconnect ()
 {
 	// reconnect to server
-	std::string serverName = "192.168.1.78";  //"localhost";
+	std::string serverName = "localhost";  // 192.168.1.78
 	int serverPort = 16101;
 
 	dbgprintf ( "Connecting..\n" );	
@@ -120,15 +144,15 @@ int NDClient::Run ()
 
 	// demo app - request the words for a random number every 2 secs
 	//
-	float elapsed_sec = m_currtime.GetElapsedSec ( m_lasttime );
-	if ( elapsed_sec >= 0.01 ) {
+        float elapsed_sec = m_currtime.GetElapsedSec ( m_lasttime );
+	if ( elapsed_sec >= 0.5 ) {
 		m_lasttime = m_currtime;
 
 		if ( netIsConnected( mSock) ) {			
 			// if connected, make request
-			int rnd = rand()*10000/RAND_MAX;
-			RequestWords ( rnd );
-			dbgprintf ( "  Requested words for: %d\n", rnd );
+			int rnum = rand() % 10000;
+			RequestWords ( rnum );
+			dbgprintf ( "  Requested words for: %d\n", rnum );
 		
 		} else {
 			// if disconnected, try and reconnect
@@ -159,7 +183,7 @@ void NDClient::RequestWords (int num)
 	}
 }
 
-void main (int argc, char* argv[])
+int main (int argc, char* argv[])
 {
 	//----- network performance profiling	
 	// - libmin must be built with PROFILE_NET and USE_NVTX
@@ -178,6 +202,8 @@ void main (int argc, char* argv[])
 	}
 
 	cli.Close ();  
+ 
+    return 1;
 }
 
 
