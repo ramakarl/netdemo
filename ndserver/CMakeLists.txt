@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 set (CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR} CACHE PATH "")
 
-set (CMAKE_CXX_FLAGS "-Wno-multichar")
+if (NOT DEFINED WIN32)
+  set (CMAKE_CXX_FLAGS "-Wno-multichar")
+endif()
 
 set(PROJNAME nd_server)
 
