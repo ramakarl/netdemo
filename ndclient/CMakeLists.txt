@@ -54,7 +54,7 @@ _REQUIRE_LIBEXT()
 
 _REQUIRE_OPENSSL (true)
 
-_REQUIRE_BCRYPT (true)
+# _REQUIRE_BCRYPT (true)
 
 #--- symbols in release mode
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" CACHE STRING "" FORCE)
