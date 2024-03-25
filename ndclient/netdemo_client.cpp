@@ -3,6 +3,7 @@
   #include <conio.h>
 #endif
 
+
 #ifdef __linux__
   #include <stdio.h>
   #include <sys/ioctl.h>
@@ -163,7 +164,6 @@ int NDClient::Run ()
 	// process event queue
 	return netProcessQueue ();
 }
-
 
 void NDClient::RequestWords (int num)
 {	

@@ -63,6 +63,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi" CACHE STRING "" FOR
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /DEBUG /OPT:REF /OPT:ICF" CACHE STRING "" FORCE)
 
 #####################################################################################
+# Asset Path
+#
+if ( NOT DEFINED ASSET_PATH ) 
+   get_filename_component ( _assets "${CMAKE_CURRENT_SOURCE_DIR}/assets" REALPATH )
+   set ( ASSET_PATH ${_assets} CACHE PATH "Full path to /assets" )   
+endif()
+add_definitions(-DASSET_PATH="${ASSET_PATH}/")
+
+#####################################################################################
 # Executable
 #
 file(GLOB MAIN_FILES *.cpp *.c *.h )
@@ -102,21 +111,20 @@ source_group("Source Files" FILES ${MAIN_FILES} ${COMMON_SOURCE_FILES} ${PACKAGE
 source_group( CUDA FILES ${CUDA_FILES})
 
 #####################################################################################
-# Install Binaries
-#
+# Install 
 #
 _DEFAULT_INSTALL_PATH()
 
-# *NOTE*: file COPY is at cmake-time, not compile-time. Need to replace with add_custom_command -E copy_directory (my own _COPY)
+# assets folder
+file (COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_PREFIX} )
 
-#-- no assets folder for now
-# file (COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_PREFIX} )	# assets folder
-
-if (WIN32) 
-  _INSTALL ( FILES ${PACKAGE_DLLS} DESTINATION ${CMAKE_INSTALL_PREFIX} )		# DLLs
-  install ( FILES $<TARGET_PDB_FILE:${PROJNAME}> DESTINATION ${CMAKE_INSTALL_PREFIX} OPTIONAL )   # PDB
+# dlls & pdb (windows)
+if (WIN32)
+  _INSTALL ( FILES ${PACKAGE_DLLS} DESTINATION ${CMAKE_INSTALL_PREFIX} )
+  install ( FILES $<TARGET_PDB_FILE:${PROJNAME}> DESTINATION ${CMAKE_INSTALL_PREFIX} OPTIONAL )  
 endif()
 
+# output executable
 install ( FILES ${INSTALL_LIST} DESTINATION ${CMAKE_INSTALL_PREFIX} )		# exe
 
 ###########################

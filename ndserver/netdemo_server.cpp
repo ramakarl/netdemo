@@ -3,6 +3,7 @@
   #include <conio.h>
 #endif
 
+
 #ifdef __linux__
   #include <stdio.h>
   #include <sys/ioctl.h>
@@ -31,6 +32,7 @@ int NDServer::NetEventCallback (Event& e, void* this_pointer) {
     NDServer* self = static_cast<NDServer*>(this_pointer);
     return self->Process ( e );
 }
+
 
 void NDServer::Start ()
 {
