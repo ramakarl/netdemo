@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 set (CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR} CACHE PATH "")
 
 if (NOT DEFINED WIN32)
-  set (CMAKE_CXX_FLAGS "-Wno-multichar" )
+  add_compile_options (-Wno-multichar )
+  add_compile_options (-g)
 endif()
 
 set(PROJNAME nd_client)
