@@ -46,7 +46,9 @@ void NDServer::Start ()
 	
 	// start server listening
 	int srv_port = 16101;	
-	netServerStart ( srv_port );
+	netSetSecurityToOpenSSL ();
+	netAllowFallbackToPlainTCP ( false );
+	netServerStart ( srv_port );	
 	netSetUserCallback ( &NetEventCallback );
 
 	netPrint ();

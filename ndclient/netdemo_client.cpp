@@ -65,7 +65,7 @@ void NDClient::Start ()
 void NDClient::Reconnect ()
 {
 	// reconnect to server
-	std::string serverName = "144.126.214.218";  // "localhost";  // 192.168.1.78
+	std::string serverName = "localhost";  // 192.168.1.78,  144.126.214.218
 	int serverPort = 16101;
 
 	dbgprintf ( "Connecting..\n" );	
@@ -170,6 +170,7 @@ void NDClient::RequestWords (int num)
 		netSend ( e );		// send to server
 	}
 }
+
 
 int main (int argc, char* argv[])
 {
