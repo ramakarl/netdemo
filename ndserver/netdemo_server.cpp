@@ -45,8 +45,8 @@ void NDServer::Start ()
 	netDebug( bDebug );
 	
 	// start server listening
-	int srv_port = 16101;
-	netStartServer ( srv_port );
+	int srv_port = 16101;	
+	netServerStart ( srv_port );
 	netSetUserCallback ( &NetEventCallback );
 
 	netPrint ();
@@ -102,7 +102,7 @@ std::string NDServer::ConvertToWords ( int num )
 	return words;
 }
 
-void NDServer::SendWordsToClient ( std::string msg, int sock )
+void NDServer::SendWordsToClient ( std::string msg, int sock_i )
 {
 	// demo app protocol:
 	//
@@ -110,10 +110,10 @@ void NDServer::SendWordsToClient ( std::string msg, int sock )
 	// sRst - here is the result containing the words (s=msg from server)
 
 	// create sRst app event
-	Event e = new_event ( 120, 'app ', 'sRst', 0, mEventPool );	
+	Event e = new_event ( 120, 'app ', 'sRst', 0, 0 );	
 	e.attachStr ( msg );
 
-	netSend ( e, NET_CONNECT, sock );		// send to specific client
+	netSend ( e, sock_i );		// send to specific client
 }
 
 int NDServer::Process ( Event& e )

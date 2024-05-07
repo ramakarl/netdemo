@@ -16,7 +16,7 @@
 		// demo app
 		void InitWords ();
 		std::string ConvertToWords ( int num );
-		void SendWordsToClient ( std::string msg, int sock );
+		void SendWordsToClient ( std::string msg, int sock_i );
 
 	private:
 
