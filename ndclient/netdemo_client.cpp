@@ -38,7 +38,7 @@ int NDClient::NetEventCallback (Event& e, void* this_pointer) {
 
 void NDClient::Start ()
 {
-	bool bDebug = false;
+	bool bDebug = true;
 	bool bVerbose = true;
 
 	// start timer
@@ -53,6 +53,7 @@ void NDClient::Start ()
 
 	// start client on random port
 	int cli_port = 10000 + rand() % 9000;
+	netSetPathToPublicKey ( "server_pubkey.pem" );
 	netClientStart ( cli_port );
 	netSetUserCallback ( &NetEventCallback );
 	
@@ -182,6 +183,8 @@ int main (int argc, char* argv[])
 	// PERF_INIT ( 64, true, true, true, 0, "" );	
 
 	NDClient cli;
+
+	addSearchPath ( ASSET_PATH );
 
 	cli.Start ();
 

@@ -48,6 +48,8 @@ void NDServer::Start ()
 	int srv_port = 16101;	
 	netSetSecurityToOpenSSL ();
 	netAllowFallbackToPlainTCP ( false );
+	netSetPathToPublicKey ( "server_pubkey.pem" );
+	netSetPathToPrivateKey ( "server_private.pem" );	
 	netServerStart ( srv_port );	
 	netSetUserCallback ( &NetEventCallback );
 
@@ -179,6 +181,8 @@ int NDServer::Process ( Event& e )
 int main (int argc, char* argv[])
 {
 	NDServer srv;
+
+	addSearchPath ( ASSET_PATH );
 
 	srv.Start ();
 	srv.InitWords ();
